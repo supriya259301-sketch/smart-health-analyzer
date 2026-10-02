@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.bg {
+    min-height: 100vh;
+    padding: 20px;
+    background: linear-gradient(135deg,#00c6ff,#0072ff);
+}
+
+.title {
+    text-align: center;
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.doctor-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+    gap: 20px;
+}
+
+/* CARD */
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+}
+
+/* EMOJI IMAGE */
+.doc-icon {
+    font-size: 50px;
+    margin-bottom: 10px;
+}
+
+/* TEXT */
+.name {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.info {
+    font-size: 14px;
+    color: #555;
+    margin: 5px 0;
+}
+
+/* STATUS */
+.available {
+    color: green;
+    font-weight: 500;
+}
+
+.booked {
+    color: red;
+    font-weight: 500;
+}
+
+/* BUTTONS */
+.view-btn {
+    background: #f1f1f1;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.book-btn {
+    background: linear-gradient(135deg,#0072ff,#00c6ff);
+    color:white;
+    border:none;
+    padding:12px;
+    border-radius:10px;
+    width:100%;
+    margin-top:10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.lock-btn {
+    background: gray;
+    color:white;
+    border:none;
+    padding:12px;
+    border-radius:10px;
+    width:100%;
+    margin-top:10px;
+    cursor: pointer;
+}
+</style>
+
+<div class="bg">
+
+<div class="title">👨‍⚕️ Nearby Doctors</div>
+
+<div class="doctor-container">
+
+<!-- DOCTOR CARD -->
+<div class="card">
+    <div class="doc-icon">👨‍⚕️</div>
+    <div class="name">Dr Sharma</div>
+    <div class="info">Cardiologist | ⭐ 4.5</div>
+    <div class="info">📍 Gurgaon (2 km away)</div>
+    <div class="available">🟢 Available Today</div>
+
+    <a href="https://www.practo.com" target="_blank">
+        <button class="view-btn">View Profile</button>
+    </a>
+
+    {% if premium %}
+    <form method="POST" action="/book">
+        <input type="hidden" name="doctor" value="Dr Sharma">
+        <button class="book-btn">Book Appointment</button>
+    </form>
+    {% else %}
+    <a href="/subscribe">
+        <button class="lock-btn">🔒 Unlock to Book</button>
+    </a>
+    {% endif %}
+</div>
+
+<!-- DOCTOR 2 -->
+<div class="card">
+    <div class="doc-icon">👩‍⚕️</div>
+    <div class="name">Dr Mehta</div>
+    <div class="info">General Physician | ⭐ 4.2</div>
+    <div class="info">📍 Delhi (5 km away)</div>
+    <div class="available">🟢 Available Today</div>
+
+    <a href="https://www.apollo247.com" target="_blank">
+        <button class="view-btn">View Profile</button>
+    </a>
+
+    {% if premium %}
+    <form method="POST" action="/book">
+        <input type="hidden" name="doctor" value="Dr Mehta">
+        <button class="book-btn">Book Appointment</button>
+    </form>
+    {% else %}
+    <a href="/subscribe">
+        <button class="lock-btn">🔒 Unlock to Book</button>
+    </a>
+    {% endif %}
+</div>
+
+<!-- DOCTOR 3 -->
+<div class="card">
+    <div class="doc-icon">👨‍⚕️</div>
+    <div class="name">Dr Ankush</div>
+    <div class="info">Nephrologist | ⭐ 4.5</div>
+    <div class="info">📍 Gurgaon (2 km away)</div>
+    <div class="available">🟢 Available Today</div>
+
+    <a href="https://www.practo.com" target="_blank">
+        <button class="view-btn">View Profile</button>
+    </a>
+
+    {% if premium %}
+    <form method="POST" action="/book">
+        <input type="hidden" name="doctor" value="Dr Ankush">
+        <button class="book-btn">Book Appointment</button>
+    </form>
+    {% else %}
+    <a href="/subscribe">
+        <button class="lock-btn">🔒 Unlock to Book</button>
+    </a>
+    {% endif %}
+</div>
+
+<!-- DOCTOR 4 -->
+<div class="card">
+    <div class="doc-icon">👩‍⚕️</div>
+    <div class="name">Dr Ankita</div>
+    <div class="info">Cardiologist | ⭐ 4.3</div>
+    <div class="info">📍 Delhi (5 km away)</div>
+    <div class="booked">🔴 Fully Booked</div>
+
+    <a href="https://www.practo.com" target="_blank">
+        <button class="view-btn">View Profile</button>
+    </a>
+
+    <button class="lock-btn">Not Available</button>
+</div>
+
+<!-- DOCTOR 5 -->
+<div class="card">
+    <div class="doc-icon">👨‍⚕️</div>
+    <div class="name">Dr Rahul</div>
+    <div class="info">Pharmacist | ⭐ 4.2</div>
+    <div class="info">📍 Noida (3 km away)</div>
+    <div class="available">🟢 Available Today</div>
+
+    <a href="https://www.practo.com" target="_blank">
+        <button class="view-btn">View Profile</button>
+    </a>
+
+    {% if premium %}
+    <form method="POST" action="/book">
+        <input type="hidden" name="doctor" value="Dr Rahul">
+        <button class="book-btn">Book Appointment</button>
+    </form>
+    {% else %}
+    <a href="/subscribe">
+        <button class="lock-btn">🔒 Unlock to Book</button>
+    </a>
+    {% endif %}
+</div>
+
+<!-- DOCTOR 6 -->
+<div class="card">
+    <div class="doc-icon">👩‍⚕️</div>
+    <div class="name">Dr Anjali</div>
+    <div class="info">General Physician | ⭐ 4.4</div>
+    <div class="info">📍 Delhi (6 km away)</div>
+    <div class="available">🟢 Available Today</div>
+
+    <a href="https://www.practo.com" target="_blank">
+        <button class="view-btn">View Profile</button>
+    </a>
+
+    {% if premium %}
+    <form method="POST" action="/book">
+        <input type="hidden" name="doctor" value="Dr Anjali">
+        <button class="book-btn">Book Appointment</button>
+    </form>
+    {% else %}
+    <a href="/subscribe">
+        <button class="lock-btn">🔒 Unlock to Book</button>
+    </a>
+    {% endif %}
+</div>
+
+</div>
+</div>
+
+{% endblock %}

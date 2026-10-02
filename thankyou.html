@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.bg {
+    height: 100vh;
+    background: linear-gradient(135deg,#00c6ff,#0072ff);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:'Poppins',sans-serif;
+}
+
+.card {
+    background:white;
+    padding:40px;
+    border-radius:20px;
+
+    text-align:center;
+    width:320px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+h2 {
+    color:#0072ff;
+}
+
+p {
+    color:gray;
+    margin:10px 0;
+}
+.cta-btn {
+    margin-top: 20px;
+    padding: 15px;
+    width: 100%;
+    border: none;
+    background: linear-gradient(135deg, #0072ff, #00c6ff);
+    color: white;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* Hover effect */
+.cta-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+}
+
+/* Click effect */
+.cta-btn:active {
+    transform: scale(0.97);
+}
+button {
+    margin-top:15px;
+    padding:12px;
+    width:100%;
+    border:none;
+    background:#0072ff;
+    color:white;
+    border-radius:10px;
+}
+</style>
+
+<div class="bg">
+<div class="card">
+
+<h2>💙 Thank You!</h2>
+
+<p><b>Your health matters and every small step you take toward recovery is important. Please stay 
+    positive, take your medicines on time, eat healthy, and give your body the rest it needs. 
+    Better days are coming, and you are stronger than you think.💪
+    Wishing you a speedy recovery and lots of good health. 🌷</b></p>
+
+
+<a href="/dashboard">
+<button>Check Again</button>
+</a>
+
+</div>
+</div>
+
+{% endblock %}

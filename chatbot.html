@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.bg {
+    height: 100vh;
+    background: linear-gradient(135deg,#00c6ff,#0072ff);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.chatbox {
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    width:300px;
+}
+
+input {
+    width:100%;
+    padding:10px;
+}
+
+button {
+    width:100%;
+    margin-top:10px;
+    background:#0072ff;
+    color:white;
+}
+</style>
+
+<div class="bg">
+<div class="chatbox">
+
+<h3>🤖 AI Doctor</h3>
+
+<input type="text" id="msg" placeholder="Ask health question">
+<button onclick="send()">Ask</button>
+
+<p id="reply"></p>
+
+</div>
+</div>
+
+
+<script>
+function send(){
+    let msg = document.getElementById("msg").value;
+
+    fetch("/ask-ai",{
+        method:"POST",
+        headers:{"Content-Type":"application/x-www-form-urlencoded"},
+        body:"msg="+msg
+    })
+    .then(res=>res.text())
+    .then(data=>{
+        document.getElementById("reply").innerText=data;
+    });
+}
+</script>
+
+{% endblock %}

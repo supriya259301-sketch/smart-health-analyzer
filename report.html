@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.report-bg {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1fa2ff, #12d8fa, #a6ffcb);
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.title {
+    text-align: center;
+    color: white;
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.card {
+    background: rgba(255,255,255,0.95);
+    padding: 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    color: white;
+}
+
+.low { background: green; }
+.moderate { background: orange; }
+.high { background: red; }
+.critical { background: darkred; }
+
+.alert {
+    background: red;
+    color: white;
+    padding: 12px;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+ul {
+    padding-left: 20px;
+}
+</style>
+
+<div class="report-bg">
+
+<div class="title">📄 Smart Health Report</div>
+
+<!-- BP RESULT -->
+<div class="card">
+    <h3>🩺 BP Result</h3>
+    <p><b>{{data.sys}} / {{data.dia}}</b></p>
+
+    <p>
+        Condition: <b>{{data.condition}}</b><br>
+        Risk:
+        <span class="badge {{data.risk|lower}}">
+            {{data.risk}}
+        </span>
+    </p>
+</div>
+
+<!-- SYMPTOMS -->
+<div class="card">
+    <h3>⚠️ Symptoms You Selected</h3>
+
+    {% if data.symptoms %}
+    <ul>
+        {% for s in data.symptoms %}
+        <li>{{s}}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No major symptoms selected</p>
+    {% endif %}
+</div>
+
+<!-- WHY BP ISSUE -->
+<div class="card">
+    <h3>🔍 Why This BP Condition?</h3>
+
+    {% if data.risk == "Low" %}
+    <p>Your BP is normal. This usually happens when your lifestyle is balanced and healthy.</p>
+
+    {% elif data.risk == "Moderate" %}
+    <p>Your BP is slightly higher than normal. Possible reasons:</p>
+    <ul>
+        <li>Stress or tension</li>
+        <li>Unhealthy eating habits</li>
+        <li>Lack of physical activity</li>
+    </ul>
+
+    {% elif data.risk == "High" %}
+    <p>Your BP is high. This may be due to:</p>
+    <ul>
+        <li>High salt intake</li>
+        <li>Obesity or inactivity</li>
+        <li>Smoking or caffeine</li>
+    </ul>
+
+    {% else %}
+    <p>This is a critical BP level. Possible serious causes:</p>
+    <ul>
+        <li>Severe stress or anxiety</li>
+        <li>Heart-related issues</li>
+        <li>Ignoring symptoms for long time</li>
+    </ul>
+    {% endif %}
+</div>
+
+<!-- 🆕 USER INFO -->
+<div class="card">
+    <h3>🧑 Patient Info</h3>
+
+    <p><b>Age:</b> {{data.age}}</p>
+    <p><b>Gender:</b> {{data.gender}}</p>
+</div>
+
+<!-- 🆕 AI DIET SECTION (NEW ADDITION) -->
+<div class="card">
+    <h3>🥗 Personalized AI Diet Plan</h3>
+
+    {% if data.diet %}
+        <p><b>Recommended for you:</b></p>
+        <p style="font-size:18px; color:#0072ff;">
+            {{data.diet}}
+        </p>
+    {% else %}
+        <p>Diet plan not available</p>
+    {% endif %}
+</div>
+
+<!-- WHAT TO DO -->
+<div class="card">
+    <h3>✅ What You Should Do</h3>
+
+    <ul>
+        <li>Maintain a healthy diet</li>
+        <li>Exercise daily (30 minutes)</li>
+        <li>Drink enough water</li>
+        <li>Monitor BP regularly</li>
+        <li>Consult doctor if needed</li>
+    </ul>
+</div>
+
+<!-- WHAT NOT TO DO -->
+<div class="card">
+    <h3>❌ What You Should Avoid</h3>
+
+    <ul>
+        <li>Avoid junk and oily food</li>
+        <li>Reduce salt intake</li>
+        <li>Avoid stress and anxiety</li>
+        <li>Limit caffeine (tea/coffee)</li>
+    </ul>
+</div>
+
+<!-- DIET (STATIC fallback) -->
+<div class="card">
+    <h3>🍎 General Healthy Diet</h3>
+
+    <ul>
+        <li>Fruits (banana, apple)</li>
+        <li>Green vegetables</li>
+        <li>Low-salt meals</li>
+        <li>Plenty of water</li>
+        <li>Home cooked food</li>
+    </ul>
+</div>
+
+<!-- ALERT -->
+{% if data.alert %}
+<div class="alert">
+    {{data.alert}} 🚨 Immediate medical attention required!
+</div>
+{% endif %}
+
+<div style="text-align:center; margin-top:25px;">
+    <a href="/thankyou">
+        <button class="finish-btn">✅ Finish & View Summary</button>
+    </a>
+</div>
+</a>
+    <a href="/dashboard" style="color:white; font-weight:bold;">
+        ⬅ Back to Dashboard
+    </a>
+</div>
+
+</div>
+
+{% endblock %}

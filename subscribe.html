@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.bg {
+    height: 100vh;
+    background: linear-gradient(135deg,#00c6ff,#0072ff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    text-align: center;
+    width: 300px;
+}
+
+.price {
+    font-size: 28px;
+    color: #0072ff;
+    margin: 10px 0;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: #0072ff;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #005bd1;
+}
+</style>
+
+<div class="bg">
+    <div class="card">
+
+        <h2>💎 Premium Plan</h2>
+        <p>Book doctor appointments & health features</p>
+
+        <div class="price">₹49 / month</div>
+
+        <ul style="text-align:left;">
+            <li>✔ Doctor Booking</li>
+            <li>✔ Priority Support</li>
+            <li>✔ Health Suggestions</li>
+        </ul>
+
+        <!-- SIMPLE DEMO SUBSCRIPTION -->
+        <a href="/activate-premium">
+            <button>Subscribe Now</button>
+        </a>
+
+    </div>
+</div>
+
+{% endblock %}s

@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.dashboard-bg {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1fa2ff, #12d8fa, #a6ffcb);
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Top Bar */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.title {
+    color: white;
+    font-size: 26px;
+    font-weight: 600;
+}
+
+/* Buttons */
+.top-actions a {
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 20px;
+    margin-left: 10px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.doctor-btn {
+    background: white;
+    color: #0072ff;
+}
+
+.premium-btn {
+    background: gold;
+    color: black;
+}
+
+/* Cards */
+.card {
+    background: rgba(255,255,255,0.95);
+    padding: 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+button {
+    margin-top: 15px;
+    padding: 12px;
+    width: 100%;
+    background: linear-gradient(135deg, #0072ff, #00c6ff);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+label {
+    display: block;
+    margin-top: 5px;
+}
+
+.logout {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.logout a {
+    color: white;
+    text-decoration: none;
+}
+</style>
+
+<div class="dashboard-bg">
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <div class="title">💙 Smart Health Dashboard</div>
+
+        <div class="top-actions">
+            <a href="/doctors" class="doctor-btn">👨‍⚕️ Doctors</a>
+
+            {% if not premium %}
+            <a href="/subscribe" class="premium-btn">💎 Go Premium</a>
+            {% endif %}
+
+            <a href="/chatbot" class="doctor-btn">🤖 AI Doctor</a>
+        </div>
+    </div>
+
+    <!-- BP INFO -->
+    <div class="card">
+        <h3>💓 Blood Pressure (BP)</h3>
+        <p>BP measures force of blood flowing in arteries.</p>
+
+        <h4>⚠️ Low BP</h4>
+        <ul>
+            <li>Dizziness</li>
+            <li>Weakness</li>
+        </ul>
+
+        <h4>🚨 High BP</h4>
+        <ul>
+            <li>Headache</li>
+            <li>Chest Pain</li>
+        </ul>
+    </div>
+
+    <!-- 🧠 MEDICAL KNOWLEDGE SECTION (NEW ADDED) -->
+    <div class="card">
+        <h3>🧠 BP Medical Knowledge</h3>
+
+        <h4>1. Systolic Pressure</h4>
+        <p>Pressure when heart contracts and pumps blood.</p>
+
+        <h4>2. Diastolic Pressure</h4>
+        <p>Pressure when heart relaxes between beats.</p>
+
+        <h4>3. Hypertension (High BP Physiology)</h4>
+        <ul>
+            <li>Narrow or stiff blood vessels</li>
+            <li>Extra salt and fluid in body</li>
+            <li>Stress hormones (adrenaline)</li>
+            <li>Kidney problems</li>
+            <li>Obesity / inactivity</li>
+        </ul>
+
+        <h4>4. Hypotension (Low BP Causes)</h4>
+        <ul>
+            <li>Dehydration</li>
+            <li>Blood loss</li>
+            <li>Weak heart pumping</li>
+            <li>Medicine side effects</li>
+            <li>Sudden standing up</li>
+        </ul>
+
+        <h4>5. Diagnostics (How BP is Checked)</h4>
+        <ul>
+            <li>Sphygmomanometer (BP machine)</li>
+            <li>Multiple readings</li>
+            <li>Home monitoring</li>
+            <li>24-hour ambulatory monitoring</li>
+            <li>Blood & ECG tests</li>
+        </ul>
+
+        <h4>6. Normal BP Range</h4>
+        <ul>
+            <li>Normal: < 120/80</li>
+            <li>Elevated: 120–129 / <80</li>
+            <li>Stage 1: 130–139 / 80–89</li>
+            <li>Stage 2: 140+/90+</li>
+            <li>Low BP: <90/60</li>
+        </ul>
+    </div>
+
+    <!-- FORM -->
+    <div class="card">
+        <h3>📝 Enter Details</h3>
+
+        <form method="POST">
+            <input type="number" name="sys" placeholder="Systolic BP" required>
+            <input type="number" name="dia" placeholder="Diastolic BP" required>
+
+            <h4>Symptoms:</h4>
+            <label><input type="checkbox" name="symptoms" value="Headache"> Headache</label>
+            <label><input type="checkbox" name="symptoms" value="Dizziness"> Dizziness</label>
+            <label><input type="checkbox" name="symptoms" value="Chest Pain"> Chest Pain</label>
+            <label><input type="checkbox" name="symptoms" value="Fatigue"> Fatigue</label>
+
+            <button>Analyze</button>
+        </form>
+    </div>
+
+    <!-- CHART -->
+    <div class="card">
+        <h3>📈 BP Trend</h3>
+        <canvas id="bpChart"></canvas>
+    </div>
+
+    <div class="logout">
+        <a href="/logout">Logout</a>
+    </div>
+
+</div>
+
+<script>
+fetch("/history-data")
+.then(res => res.json())
+.then(data => {
+    if(data.labels.length === 0){
+        document.getElementById("bpChart").outerHTML =
+        "<p style='text-align:center;'>No data yet</p>";
+        return;
+    }
+
+    new Chart(document.getElementById("bpChart"), {
+        type: "line",
+        data: {
+            labels: data.labels,
+            datasets: [
+                { label: "Systolic", data: data.sys },
+                { label: "Diastolic", data: data.dia }
+            ]
+        }
+    });
+});
+</script>
+
+{% endblock %}
